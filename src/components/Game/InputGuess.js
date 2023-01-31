@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
-function InputGuess() {
+function InputGuess({ guessList, setGuessList }) {
     const [search, setSearch] = useState('')
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (search.length < 5) window.alert('La palabra debe tener 5 letras')
-        else {
-            console.info({search})
-            setSearch('')
-        }
+        if (search.length < 5) return window.alert('The input must have 5 characters')
+        const newWord = [...guessList]
+        newWord.push({search, id: Math.random()})
+        setGuessList(newWord)
+        setSearch('')
     }
 
   return (
@@ -19,7 +19,9 @@ function InputGuess() {
             value={search} 
             id="guess-input" 
             type="text"
-            maxLength='5'
+            required
+            minLength={5}
+            maxLength={5}
             onChange={(e) => setSearch((e.target.value).toUpperCase())} 
         />
     </form>
